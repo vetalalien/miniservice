@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+        app: miniservice
+  template:
+    metadata:
+      labels:
+        app: miniservice
+    spec:
+      containers:
+        - name: miniservice
+          image: vetalalien/miniservice:v1
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 3
